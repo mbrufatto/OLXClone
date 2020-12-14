@@ -11,9 +11,10 @@ class CustomDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: (){
         Navigator.of(context).pop();
-        if(userManagerStore.isLoggedIn) {
+
+        if(userManagerStore.isLoggedIn){
           GetIt.I<PageStore>().setPage(4);
         } else {
           Navigator.of(context).push(
@@ -41,24 +42,22 @@ class CustomDrawerHeader extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
-                      fontWeight: FontWeight.w500
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(height: 8,),
                   Text(
-                    userManagerStore.isLoggedIn
-                      ? userManagerStore.user.email
-                      : 'Clique aqui',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400
-                    ),
+                      userManagerStore.isLoggedIn
+                          ? userManagerStore.user.email
+                          : 'Clique aqui',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      )
                   )
                 ],
               ),
             )
-
           ],
         ),
       ),
