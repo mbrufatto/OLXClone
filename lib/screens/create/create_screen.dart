@@ -5,6 +5,8 @@ import 'package:xlo_clone/components/custom_drawer/custom_drawer.dart';
 import 'package:xlo_clone/screens/create/components/images_field.dart';
 import 'package:xlo_clone/stores/create_store.dart';
 
+import 'components/categoryField.dart';
+
 class CreateScreen extends StatelessWidget {
   final CreateStore createStore = CreateStore();
 
@@ -48,6 +50,7 @@ class CreateScreen extends StatelessWidget {
                 contentPadding: contentPadding,
               ),
             ),
+            CategoryField(createStore),
             TextFormField(
                 decoration: InputDecoration(
                   labelText: 'Preço *',

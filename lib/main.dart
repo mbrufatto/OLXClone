@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
-import 'package:xlo_clone/screens/category/category_screen.dart';
+import 'package:xlo_clone/screens/base/base_screen.dart';
 import 'package:xlo_clone/stores/category_store.dart';
 import 'package:xlo_clone/stores/page_store.dart';
 import 'package:xlo_clone/stores/user_manager_store.dart';
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.purple,
           appBarTheme: AppBarTheme(elevation: 0),
           cursorColor: Colors.orange),
-      home: CategoryScreen(),
+      home: BaseScreen(),
     );
   }
 }
