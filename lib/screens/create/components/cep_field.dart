@@ -3,32 +3,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:xlo_clone/stores/cep_store.dart';
+import 'package:xlo_clone/stores/create_store.dart';
 
 class CepField extends StatelessWidget {
-  final CepStore cepStore = CepStore();
+  final CreateStore createStore;
+  final CepStore cepStore;
+
+  CepField(this.createStore) : cepStore = createStore.cepStore;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        TextFormField(
-          onChanged: cepStore.setCep,
-          keyboardType: TextInputType.number,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            CepInputFormatter(),
-          ],
-          decoration: InputDecoration(
-            labelText: 'CEP *',
-            labelStyle: TextStyle(
-              fontWeight: FontWeight.w800,
-              color: Colors.grey,
-              fontSize: 18,
+        Observer(builder: (_) {
+          return TextFormField(
+            onChanged: cepStore.setCep,
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+              CepInputFormatter(),
+            ],
+            decoration: InputDecoration(
+              errorText: createStore.addressError,
+              labelText: 'CEP *',
+              labelStyle: TextStyle(
+                fontWeight: FontWeight.w800,
+                color: Colors.grey,
+                fontSize: 18,
+              ),
+              contentPadding: const EdgeInsets.fromLTRB(16, 10, 12, 10),
             ),
-            contentPadding: const EdgeInsets.fromLTRB(16, 10, 12, 10),
-          ),
-        ),
+          );
+        }),
         Observer(builder: (_) {
           if (cepStore.address == null &&
               cepStore.error == null &&
