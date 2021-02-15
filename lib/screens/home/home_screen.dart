@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:xlo_clone/components/custom_drawer/custom_drawer.dart';
 import 'package:xlo_clone/screens/home/components/search_dialog.dart';
+import 'package:xlo_clone/screens/home/components/top_bar.dart';
 import 'package:xlo_clone/stores/home_store.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -56,6 +57,11 @@ class HomeScreen extends StatelessWidget {
                 },
               );
             })
+          ],
+        ),
+        body: Column(
+          children: [
+            TopBar(),
           ],
         ),
       ),
