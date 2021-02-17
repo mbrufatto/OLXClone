@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:xlo_clone/screens/base/base_screen.dart';
@@ -37,11 +38,20 @@ class MyApp extends StatelessWidget {
       title: 'XLO',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          primaryColor: Colors.purple,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          scaffoldBackgroundColor: Colors.purple,
-          appBarTheme: AppBarTheme(elevation: 0),
-          cursorColor: Colors.orange),
+        primaryColor: Colors.purple,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        scaffoldBackgroundColor: Colors.purple,
+        appBarTheme: AppBarTheme(elevation: 0),
+        cursorColor: Colors.orange,
+      ),
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+      ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
       home: BaseScreen(),
     );
   }
