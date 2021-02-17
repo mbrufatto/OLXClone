@@ -40,9 +40,11 @@ class FilterScreen extends StatelessWidget {
                     child: RaisedButton(
                       color: Colors.orange,
                       disabledColor: Colors.orange.withAlpha(120),
+                      textColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
+                      elevation: 0,
                       child: Text(
                         'FILTRAR',
                         style: TextStyle(
