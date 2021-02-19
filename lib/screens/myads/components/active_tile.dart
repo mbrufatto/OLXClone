@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:xlo_clone/helpers/extensions.dart';
 import 'package:xlo_clone/models/ad.dart';
 import 'package:xlo_clone/screens/ad/ad_screen.dart';
+import 'package:xlo_clone/screens/create/create_screen.dart';
 
 class ActiveTile extends StatelessWidget {
   final Ad ad;
@@ -75,6 +76,7 @@ class ActiveTile extends StatelessWidget {
                       onSelected: (choice) {
                         switch (choice.index) {
                           case 0:
+                            editAd(context);
                             break;
                           case 1:
                             break;
@@ -120,6 +122,11 @@ class ActiveTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> editAd(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (_) => CreateScreen(ad: ad)));
   }
 }
 

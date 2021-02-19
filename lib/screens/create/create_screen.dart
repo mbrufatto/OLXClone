@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:xlo_clone/components/custom_drawer/custom_drawer.dart';
 import 'package:xlo_clone/components/error_box.dart';
+import 'package:xlo_clone/models/ad.dart';
 import 'package:xlo_clone/screens/create/components/categoryField.dart';
 import 'package:xlo_clone/screens/create/components/cep_field.dart';
 import 'package:xlo_clone/screens/create/components/hide_phone_field.dart';
@@ -14,12 +15,22 @@ import 'package:xlo_clone/stores/create_store.dart';
 import 'package:xlo_clone/stores/page_store.dart';
 
 class CreateScreen extends StatefulWidget {
+  final Ad ad;
+
+  CreateScreen({this.ad});
+
   @override
-  _CreateScreenState createState() => _CreateScreenState();
+  _CreateScreenState createState() => _CreateScreenState(ad);
 }
 
 class _CreateScreenState extends State<CreateScreen> {
-  final CreateStore createStore = CreateStore();
+  final CreateStore createStore;
+
+  bool editing;
+
+  _CreateScreenState(Ad ad)
+      : editing = ad != null,
+        createStore = CreateStore(ad ?? Ad());
 
   @override
   void initState() {
@@ -41,9 +52,9 @@ class _CreateScreenState extends State<CreateScreen> {
     final contentPadding = const EdgeInsets.fromLTRB(16, 10, 12, 10);
 
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: editing ? null : CustomDrawer(),
       appBar: AppBar(
-        title: Text('Criar Anúncio'),
+        title: Text(editing ? 'Editar Anúncio' : 'Criar Anúncio'),
         centerTitle: true,
       ),
       body: Container(
@@ -86,6 +97,7 @@ class _CreateScreenState extends State<CreateScreen> {
                         ImagesField(createStore),
                         Observer(builder: (_) {
                           return TextFormField(
+                            initialValue: createStore.title,
                             onChanged: createStore.setTitle,
                             decoration: InputDecoration(
                               labelText: 'Título *',
@@ -98,6 +110,7 @@ class _CreateScreenState extends State<CreateScreen> {
                         }),
                         Observer(builder: (_) {
                           return TextFormField(
+                            initialValue: createStore.description,
                             onChanged: createStore.setDescription,
                             decoration: InputDecoration(
                               labelText: 'Descreção *',
@@ -111,6 +124,7 @@ class _CreateScreenState extends State<CreateScreen> {
                         CepField(createStore),
                         Observer(builder: (_) {
                           return TextFormField(
+                              initialValue: createStore.priceText,
                               onChanged: createStore.setPrice,
                               decoration: InputDecoration(
                                 labelText: 'Preço *',

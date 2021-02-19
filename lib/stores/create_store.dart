@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:xlo_clone/helpers/extensions.dart';
 import 'package:xlo_clone/models/ad.dart';
 import 'package:xlo_clone/models/address.dart';
 import 'package:xlo_clone/models/category.dart';
@@ -12,6 +13,21 @@ part 'create_store.g.dart';
 class CreateStore = _CreateStore with _$CreateStore;
 
 abstract class _CreateStore with Store {
+  _CreateStore(Ad ad) {
+    title = ad.title;
+    description = ad.description;
+    images = ad.images.asObservable();
+    category = ad.category;
+    priceText = ad.price?.formattedMoneyWithoutPrefix();
+    hidePhone = ad.hidePhone;
+
+    if (ad.address != null) {
+      cepStore = CepStore(ad.address.cep);
+    } else {
+      cepStore = CepStore(null);
+    }
+  }
+
   ObservableList images = ObservableList();
 
   @computed
@@ -72,7 +88,7 @@ abstract class _CreateStore with Store {
       return 'Campo obrigatório';
   }
 
-  CepStore cepStore = CepStore();
+  CepStore cepStore;
 
   @computed
   Address get address => cepStore.address;
@@ -154,12 +170,6 @@ abstract class _CreateStore with Store {
     ad.images = images;
     ad.address = address;
     ad.user = GetIt.I<UserManagerStore>().user;
-
-    print('=========================== CreateStore');
-    print(ad.user.id);
-    print(ad.user.email);
-    print(ad.user.name);
-    print('===========================');
 
     loading = true;
     try {
