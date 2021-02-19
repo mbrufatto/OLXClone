@@ -26,9 +26,15 @@ abstract class _MyAdsStore with Store {
 
   Future<void> _getMyAds() async {
     final user = GetIt.I<UserManagerStore>().user;
-
     try {
+      loading = true;
       allAds = await AdRepository().getMyAds(user);
+      loading = false;
     } catch (e) {}
   }
+
+  @observable
+  bool loading = false;
+
+  void refresh() => _getMyAds();
 }

@@ -13,12 +13,14 @@ part 'create_store.g.dart';
 class CreateStore = _CreateStore with _$CreateStore;
 
 abstract class _CreateStore with Store {
-  _CreateStore(Ad ad) {
-    title = ad.title;
-    description = ad.description;
+  final Ad ad;
+
+  _CreateStore(this.ad) {
+    title = ad.title ?? '';
+    description = ad.description ?? '';
     images = ad.images.asObservable();
     category = ad.category;
-    priceText = ad.price?.formattedMoneyWithoutPrefix();
+    priceText = ad.price?.formattedMoneyWithoutPrefix() ?? '';
     hidePhone = ad.hidePhone;
 
     if (ad.address != null) {
@@ -160,8 +162,6 @@ abstract class _CreateStore with Store {
 
   @action
   Future<void> _send() async {
-    final ad = Ad();
-
     ad.title = title;
     ad.description = description;
     ad.category = category;
