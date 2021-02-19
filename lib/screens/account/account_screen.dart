@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:xlo_clone/components/custom_drawer/custom_drawer.dart';
+import 'package:xlo_clone/screens/edit_account/edit_account_screen.dart';
 import 'package:xlo_clone/screens/myads/myads_screen.dart';
 import 'package:xlo_clone/stores/user_manager_store.dart';
 
@@ -55,7 +56,10 @@ class AccountScreen extends StatelessWidget {
                       child: FlatButton(
                         child: Text('EDITAR'),
                         textColor: Colors.purple,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => EditAccountSreen()));
+                        },
                       ),
                     ),
                   ],
