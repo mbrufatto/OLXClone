@@ -2,11 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:xlo_clone/helpers/extensions.dart';
 import 'package:xlo_clone/models/ad.dart';
+import 'package:xlo_clone/stores/myads_store.dart';
 
 class SoldTile extends StatelessWidget {
   final Ad ad;
+  final MyAdsStore store;
 
-  SoldTile(this.ad);
+  SoldTile(this.ad, this.store);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,9 @@ class SoldTile extends StatelessWidget {
                   icon: Icon(Icons.delete),
                   iconSize: 20,
                   color: Colors.purple,
-                  onPressed: () {},
+                  onPressed: () {
+                    store.deleteAd(ad);
+                  },
                 )
               ],
             ),

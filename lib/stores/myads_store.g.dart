@@ -47,6 +47,13 @@ mixin _$MyAdsStore on _MyAdsStore, Store {
     });
   }
 
+  final _$soldAdAsyncAction = AsyncAction('_MyAdsStore.soldAd');
+
+  @override
+  Future<void> soldAd(Ad ad) {
+    return _$soldAdAsyncAction.run(() => super.soldAd(ad));
+  }
+
   @override
   String toString() {
     return '''
