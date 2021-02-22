@@ -1,15 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:xlo_clone/models/ad.dart';
 import 'package:xlo_clone/screens/ad/components/bottom_bar.dart';
 import 'package:xlo_clone/screens/ad/components/description_panel.dart';
 import 'package:xlo_clone/screens/ad/components/location_panel.dart';
 import 'package:xlo_clone/screens/ad/components/main_panel.dart';
 import 'package:xlo_clone/screens/ad/components/user_panel.dart';
+import 'package:xlo_clone/stores/favorite_store.dart';
+import 'package:xlo_clone/stores/user_manager_store.dart';
 
 class AdScreen extends StatelessWidget {
   final Ad ad;
+  final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
+  final FavoriteStore favoriteStore = GetIt.I<FavoriteStore>();
 
   AdScreen(this.ad);
 
@@ -20,6 +25,13 @@ class AdScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Anúncio'),
         centerTitle: true,
+        actions: [
+          if (ad.status == AdStatus.ACTIVE && userManagerStore.isLoggedIn)
+            IconButton(
+              icon: Icon(Icons.favorite_border),
+              onPressed: () => favoriteStore.toggleFavorite(ad),
+            ),
+        ],
       ),
       body: Stack(
         children: [
