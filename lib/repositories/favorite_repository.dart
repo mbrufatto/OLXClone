@@ -5,6 +5,26 @@ import 'package:xlo_clone/repositories/parse_errors.dart';
 import 'package:xlo_clone/repositories/table_keys.dart';
 
 class FavoriteRepository {
+  Future<List<Ad>> getFavorites(User user) async {
+    final queryBuilder =
+        QueryBuilder<ParseObject>(ParseObject(keyFavoritesTable));
+
+    queryBuilder.whereEqualTo(keyFavoritesOwner, user.id);
+    queryBuilder.includeObject([keyFavoritesAd, 'ad.owner']);
+
+    final response = await queryBuilder.query();
+
+    if (response.success && response.results != null) {
+      return response.results
+          .map((po) => Ad.fromParse(po.get(keyFavoritesAd)))
+          .toList();
+    } else if (response.success && response.results == null) {
+      return [];
+    } else {
+      return Future.error(ParseErrors.getDescription(response.error.code));
+    }
+  }
+
   Future<void> save({Ad ad, User user}) async {
     final favoriteObject = ParseObject(keyFavoritesTable);
 
@@ -17,5 +37,26 @@ class FavoriteRepository {
 
     if (!response.success)
       return Future.error(ParseErrors.getDescription(response.error.code));
+  }
+
+  Future<void> delete({Ad ad, User user}) async {
+    try {
+      final queryBuilder =
+          QueryBuilder<ParseObject>(ParseObject(keyFavoritesTable));
+
+      queryBuilder.whereEqualTo(keyFavoritesOwner, user.id);
+      queryBuilder.whereEqualTo(
+          keyFavoritesAd, ParseObject(keyAdTable)..set(keyAdId, ad.id));
+
+      final response = await queryBuilder.query();
+
+      if (response.success && response.results != null) {
+        for (final f in response.results as List<ParseObject>) {
+          await f.delete();
+        }
+      }
+    } catch (e) {
+      return Future.error('Falha ao deletar um anuncio favoritado');
+    }
   }
 }
