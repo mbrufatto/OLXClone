@@ -7,8 +7,7 @@ part 'user_manager_store.g.dart';
 class UserManagerStore = _UserManagerStore with _$UserManagerStore;
 
 abstract class _UserManagerStore with Store {
-
-  _UserManagerStore(){
+  _UserManagerStore() {
     _getCurrentUser();
   }
 
@@ -26,4 +25,8 @@ abstract class _UserManagerStore with Store {
     setUser(user);
   }
 
+  Future<void> logout() async {
+    await UserRepository().logout();
+    setUser(null);
+  }
 }

@@ -9,7 +9,6 @@ part 'login_store.g.dart';
 class LoginStore = _LoginStore with _$LoginStore;
 
 abstract class _LoginStore with Store {
-
   @observable
   String email;
 
@@ -33,8 +32,8 @@ abstract class _LoginStore with Store {
       password == null || passwordValid ? null : 'Senha inválida';
 
   @computed
-  Function get loginPressed => emailValid && passwordValid && !loading
-      ? _login : null;
+  Function get loginPressed =>
+      emailValid && passwordValid && !loading ? _login : null;
 
   @observable
   bool loading = false;
@@ -45,11 +44,12 @@ abstract class _LoginStore with Store {
   @action
   Future<void> _login() async {
     loading = true;
+    error = null;
 
     try {
       final user = await UserRepository().loginWithEmail(email, password);
       GetIt.I<UserManagerStore>().setUser(user);
-    } catch (e){
+    } catch (e) {
       error = e;
     }
 
