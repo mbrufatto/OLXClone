@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:xlo_clone/screens/account/account_screen.dart';
 import 'package:xlo_clone/screens/create/create_screen.dart';
+import 'package:xlo_clone/screens/favorites/favorites_screen.dart';
 import 'package:xlo_clone/screens/home/home_screen.dart';
 import 'package:xlo_clone/stores/page_store.dart';
 
@@ -36,9 +37,7 @@ class _BaseScreenState extends State<BaseScreen> {
           Container(
             color: Colors.yellow,
           ),
-          Container(
-            color: Colors.purple,
-          ),
+          FavoritesScreen(),
           AccountScreen(),
         ],
       ),
