@@ -14,18 +14,11 @@ class FilterStore = _FilterStore with _$FilterStore;
 
 abstract class _FilterStore with Store {
   _FilterStore({
-    // this.city,
     this.orderBy = OrderBy.DATE,
     this.minPrice,
     this.maxPrice,
     this.vendorType = VENDOR_TYPE_PARTICULAR,
   });
-
-  // @observable
-  // String city = GetIt.I<LocationStore>().currentCity;
-  //
-  // @action
-  // void setCity(String value) => city = value;
 
   @observable
   OrderBy orderBy;
@@ -72,7 +65,6 @@ abstract class _FilterStore with Store {
 
   FilterStore clone() {
     return FilterStore(
-      // city: city,
       orderBy: orderBy,
       minPrice: minPrice,
       maxPrice: maxPrice,

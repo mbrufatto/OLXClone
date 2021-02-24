@@ -26,10 +26,6 @@ class AdRepository {
         queryBuilder.whereContains(keyAdTitle, search, caseSensitive: false);
       }
 
-      // if (filter.city != null && filter.city.isNotEmpty) {
-      //   queryBuilder.whereEqualTo(keyAdCity, filter.city);
-      // }
-
       if (category != null && category.id != '*') {
         queryBuilder.whereEqualTo(
           keyAdCategory,
