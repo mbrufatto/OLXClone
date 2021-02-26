@@ -31,6 +31,21 @@ mixin _$FilterStore on _FilterStore, Store {
               name: '_FilterStore.isFormValid'))
           .value;
 
+  final _$cityAtom = Atom(name: '_FilterStore.city');
+
+  @override
+  String get city {
+    _$cityAtom.reportRead();
+    return super.city;
+  }
+
+  @override
+  set city(String value) {
+    _$cityAtom.reportWrite(value, super.city, () {
+      super.city = value;
+    });
+  }
+
   final _$orderByAtom = Atom(name: '_FilterStore.orderBy');
 
   @override
@@ -94,6 +109,17 @@ mixin _$FilterStore on _FilterStore, Store {
   final _$_FilterStoreActionController = ActionController(name: '_FilterStore');
 
   @override
+  void setCity(String value) {
+    final _$actionInfo = _$_FilterStoreActionController.startAction(
+        name: '_FilterStore.setCity');
+    try {
+      return super.setCity(value);
+    } finally {
+      _$_FilterStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setOrderBy(OrderBy value) {
     final _$actionInfo = _$_FilterStoreActionController.startAction(
         name: '_FilterStore.setOrderBy');
@@ -140,6 +166,7 @@ mixin _$FilterStore on _FilterStore, Store {
   @override
   String toString() {
     return '''
+city: ${city},
 orderBy: ${orderBy},
 minPrice: ${minPrice},
 maxPrice: ${maxPrice},

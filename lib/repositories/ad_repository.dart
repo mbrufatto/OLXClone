@@ -5,6 +5,7 @@ import 'package:path/path.dart' as path;
 import 'package:xlo_clone/models/ad.dart';
 import 'package:xlo_clone/models/category.dart';
 import 'package:xlo_clone/models/user.dart';
+import 'package:xlo_clone/repositories/location_repository.dart';
 import 'package:xlo_clone/repositories/parse_errors.dart';
 import 'package:xlo_clone/repositories/table_keys.dart';
 import 'package:xlo_clone/stores/filter_store.dart';
@@ -25,6 +26,15 @@ class AdRepository {
       if (search != null && search.trim().isNotEmpty) {
         queryBuilder.whereContains(keyAdTitle, search, caseSensitive: false);
       }
+
+      if (filter.city != null && filter.city.isNotEmpty) {
+        queryBuilder.whereEqualTo(keyAdCity, filter.city);
+      } else {
+        final String currentCity =
+            await LoacationRepository().determinePosition();
+        queryBuilder.whereEqualTo(keyAdCity, currentCity);
+      }
+
       if (category != null && category.id != '*') {
         queryBuilder.whereEqualTo(
           keyAdCategory,
