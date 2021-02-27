@@ -18,7 +18,6 @@ class CityField extends StatelessWidget {
           if (filter.selectedUF == null || filter.selectedUF.name == 'Todos')
             return Container();
           return DropdownButtonFormField(
-            value: filter.selectedCity,
             items: filter.allCityList.length > 0
                 ? filter.allCityList
                     .map((e) => DropdownMenuItem(
@@ -30,6 +29,7 @@ class CityField extends StatelessWidget {
             onChanged: (selectedCity) {
               filter.setCity(selectedCity);
             },
+            value: filter.selectedUF,
           );
         }),
       ],

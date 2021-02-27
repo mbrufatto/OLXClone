@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
-import 'package:xlo_clone/screens/filter/components/city_field.dart';
 import 'package:xlo_clone/screens/filter/components/order_by_field.dart';
 import 'package:xlo_clone/screens/filter/components/state_field.dart';
 import 'package:xlo_clone/screens/filter/components/vendor_type_field.dart';
@@ -33,7 +32,7 @@ class FilterScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 StateField(filter),
-                CityField(filter),
+                // CityField(filter),
                 OrderByField(filter),
                 PriceRangeField(filter),
                 VendorTypeField(filter),

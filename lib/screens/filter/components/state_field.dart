@@ -15,12 +15,14 @@ class StateField extends StatelessWidget {
       Observer(builder: (_) {
         return DropdownButtonFormField(
           value: filter.selectedUF,
-          items: filter.allStateList
-              .map((e) => DropdownMenuItem(
-                    child: Text(e.name),
-                    value: e,
-                  ))
-              .toList(),
+          items: filter.allStateList != null
+              ? filter.allStateList
+                  .map((e) => DropdownMenuItem(
+                        child: Text(e.name),
+                        value: e,
+                      ))
+                  .toList()
+              : null,
           onChanged: (selectedState) {
             filter.setSelectedState(selectedState);
           },

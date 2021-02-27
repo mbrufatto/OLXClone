@@ -150,6 +150,13 @@ mixin _$FilterStore on _FilterStore, Store {
     return _$_getStateListAsyncAction.run(() => super._getStateList());
   }
 
+  final _$_selectedItemAsyncAction = AsyncAction('_FilterStore._selectedItem');
+
+  @override
+  Future<void> _selectedItem() {
+    return _$_selectedItemAsyncAction.run(() => super._selectedItem());
+  }
+
   final _$_FilterStoreActionController = ActionController(name: '_FilterStore');
 
   @override

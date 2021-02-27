@@ -111,15 +111,30 @@ abstract class _FilterStore with Store {
       List.from(stateList)..insert(0, UF(id: 0, initials: '*', name: 'Todos'));
 
   @computed
-  List<City> get allCityList => List.from(cityList);
+  List<City> get allCityList =>
+      List.from(cityList)..insert(0, City(id: 0, name: 'Todas'));
 
   @action
   Future<void> _getStateList() async {
     try {
+      stateList.clear();
       final states = await IBGERepository().getUFList();
       setStateList(states);
+      _selectedItem();
     } catch (e) {
       print(e);
+    }
+  }
+
+  @action
+  Future<void> _selectedItem() async {
+    if (selectedUF != null && selectedUF.name != 'Todos') {
+      final UF currentSelectedUf = selectedUF;
+      selectedUF = null;
+      final List<UF> currentUf = await allStateList
+          .where((element) => element.name == currentSelectedUf.name)
+          .toList();
+      setSelectedState(currentUf.first);
     }
   }
 
