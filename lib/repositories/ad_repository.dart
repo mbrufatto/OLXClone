@@ -27,8 +27,8 @@ class AdRepository {
         queryBuilder.whereContains(keyAdTitle, search, caseSensitive: false);
       }
 
-      if (filter.city != null && filter.city.isNotEmpty) {
-        queryBuilder.whereEqualTo(keyAdCity, filter.city);
+      if (filter.selectedCity != null && filter.selectedCity.name.isNotEmpty) {
+        queryBuilder.whereEqualTo(keyAdCity, filter.selectedCity.name);
       } else {
         final String currentCity =
             await LoacationRepository().determinePosition();

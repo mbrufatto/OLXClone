@@ -1,5 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:xlo_clone/models/city.dart';
+import 'package:xlo_clone/models/uf.dart';
+import 'package:xlo_clone/repositories/ibge_repository.dart';
 
 import 'home_store.dart';
 
@@ -14,18 +17,16 @@ class FilterStore = _FilterStore with _$FilterStore;
 
 abstract class _FilterStore with Store {
   _FilterStore({
-    this.city,
     this.orderBy = OrderBy.DATE,
     this.minPrice,
     this.maxPrice,
     this.vendorType = VENDOR_TYPE_PARTICULAR,
-  });
+  }) {
+    _getStateList();
+  }
 
-  @observable
-  String city;
-
-  @action
-  void setCity(String value) => city = value;
+  ObservableList<UF> stateList = ObservableList<UF>();
+  ObservableList<City> cityList = ObservableList<City>();
 
   @observable
   OrderBy orderBy;
@@ -66,13 +67,63 @@ abstract class _FilterStore with Store {
   @computed
   bool get isFormValid => priceError == null;
 
+  @observable
+  UF selectedUF;
+
+  @action
+  Future<void> setSelectedState(UF uf) async {
+    try {
+      selectedUF = uf;
+      cityList.clear();
+      final cities = await IBGERepository().getCityListFromApi(selectedUF);
+      cities.removeWhere((element) => element == null);
+      setCityList(cities);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @action
+  void setStateList(List<UF> ufs) {
+    stateList.clear();
+    stateList.addAll(ufs);
+  }
+
+  @action
+  void setCityList(List<City> cities) {
+    cityList.addAll(cities);
+    print(allCityList.map((e) => print(e.name)));
+  }
+
+  @observable
+  City selectedCity;
+
+  @action
+  void setCity(City value) => selectedCity = value;
+
+  @computed
+  List<UF> get allStateList =>
+      List.from(stateList)..insert(0, UF(id: 0, initials: '*', name: 'Todos'));
+
+  @computed
+  List<City> get allCityList => List.from(cityList);
+
+  @action
+  Future<void> _getStateList() async {
+    try {
+      final states = await IBGERepository().getUFList();
+      setStateList(states);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void save() {
     GetIt.I<HomeStore>().setFilter(this);
   }
 
   FilterStore clone() {
     return FilterStore(
-      city: city,
       orderBy: orderBy,
       minPrice: minPrice,
       maxPrice: maxPrice,

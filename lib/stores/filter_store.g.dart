@@ -30,21 +30,20 @@ mixin _$FilterStore on _FilterStore, Store {
       (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
               name: '_FilterStore.isFormValid'))
           .value;
-
-  final _$cityAtom = Atom(name: '_FilterStore.city');
-
-  @override
-  String get city {
-    _$cityAtom.reportRead();
-    return super.city;
-  }
+  Computed<List<UF>> _$allStateListComputed;
 
   @override
-  set city(String value) {
-    _$cityAtom.reportWrite(value, super.city, () {
-      super.city = value;
-    });
-  }
+  List<UF> get allStateList =>
+      (_$allStateListComputed ??= Computed<List<UF>>(() => super.allStateList,
+              name: '_FilterStore.allStateList'))
+          .value;
+  Computed<List<City>> _$allCityListComputed;
+
+  @override
+  List<City> get allCityList =>
+      (_$allCityListComputed ??= Computed<List<City>>(() => super.allCityList,
+              name: '_FilterStore.allCityList'))
+          .value;
 
   final _$orderByAtom = Atom(name: '_FilterStore.orderBy');
 
@@ -106,18 +105,52 @@ mixin _$FilterStore on _FilterStore, Store {
     });
   }
 
-  final _$_FilterStoreActionController = ActionController(name: '_FilterStore');
+  final _$selectedUFAtom = Atom(name: '_FilterStore.selectedUF');
 
   @override
-  void setCity(String value) {
-    final _$actionInfo = _$_FilterStoreActionController.startAction(
-        name: '_FilterStore.setCity');
-    try {
-      return super.setCity(value);
-    } finally {
-      _$_FilterStoreActionController.endAction(_$actionInfo);
-    }
+  UF get selectedUF {
+    _$selectedUFAtom.reportRead();
+    return super.selectedUF;
   }
+
+  @override
+  set selectedUF(UF value) {
+    _$selectedUFAtom.reportWrite(value, super.selectedUF, () {
+      super.selectedUF = value;
+    });
+  }
+
+  final _$selectedCityAtom = Atom(name: '_FilterStore.selectedCity');
+
+  @override
+  City get selectedCity {
+    _$selectedCityAtom.reportRead();
+    return super.selectedCity;
+  }
+
+  @override
+  set selectedCity(City value) {
+    _$selectedCityAtom.reportWrite(value, super.selectedCity, () {
+      super.selectedCity = value;
+    });
+  }
+
+  final _$setSelectedStateAsyncAction =
+      AsyncAction('_FilterStore.setSelectedState');
+
+  @override
+  Future<void> setSelectedState(UF uf) {
+    return _$setSelectedStateAsyncAction.run(() => super.setSelectedState(uf));
+  }
+
+  final _$_getStateListAsyncAction = AsyncAction('_FilterStore._getStateList');
+
+  @override
+  Future<void> _getStateList() {
+    return _$_getStateListAsyncAction.run(() => super._getStateList());
+  }
+
+  final _$_FilterStoreActionController = ActionController(name: '_FilterStore');
 
   @override
   void setOrderBy(OrderBy value) {
@@ -164,16 +197,52 @@ mixin _$FilterStore on _FilterStore, Store {
   }
 
   @override
+  void setStateList(List<UF> ufs) {
+    final _$actionInfo = _$_FilterStoreActionController.startAction(
+        name: '_FilterStore.setStateList');
+    try {
+      return super.setStateList(ufs);
+    } finally {
+      _$_FilterStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setCityList(List<City> cities) {
+    final _$actionInfo = _$_FilterStoreActionController.startAction(
+        name: '_FilterStore.setCityList');
+    try {
+      return super.setCityList(cities);
+    } finally {
+      _$_FilterStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setCity(City value) {
+    final _$actionInfo = _$_FilterStoreActionController.startAction(
+        name: '_FilterStore.setCity');
+    try {
+      return super.setCity(value);
+    } finally {
+      _$_FilterStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-city: ${city},
 orderBy: ${orderBy},
 minPrice: ${minPrice},
 maxPrice: ${maxPrice},
 vendorType: ${vendorType},
+selectedUF: ${selectedUF},
+selectedCity: ${selectedCity},
 priceError: ${priceError},
 isTypeParticular: ${isTypeParticular},
-isFormValid: ${isFormValid}
+isFormValid: ${isFormValid},
+allStateList: ${allStateList},
+allCityList: ${allCityList}
     ''';
   }
 }
