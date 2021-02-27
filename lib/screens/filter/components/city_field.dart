@@ -3,16 +3,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:xlo_clone/screens/filter/components/section_title.dart';
 import 'package:xlo_clone/stores/filter_store.dart';
 
-class CityField extends StatefulWidget {
+class CityField extends StatelessWidget {
   final FilterStore filter;
 
   CityField(this.filter);
 
-  @override
-  _CityFieldState createState() => _CityFieldState();
-}
-
-class _CityFieldState extends State<CityField> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,11 +15,12 @@ class _CityFieldState extends State<CityField> {
       children: [
         SectionTitle("Selecione uma cidade"),
         Observer(builder: (_) {
-          if (widget.filter.selectedUF == null ||
-              widget.filter.selectedUF.name == 'Todos') return Container();
+          if (filter.selectedUF == null || filter.selectedUF.name == 'Todos')
+            return Container();
           return DropdownButtonFormField(
-            items: widget.filter.allCityList.length > 0
-                ? widget.filter.allCityList
+            value: filter.selectedCity,
+            items: filter.allCityList.length > 0
+                ? filter.allCityList
                     .map((e) => DropdownMenuItem(
                           child: Text(e.name),
                           value: e,
@@ -32,7 +28,7 @@ class _CityFieldState extends State<CityField> {
                     .toList()
                 : null,
             onChanged: (selectedCity) {
-              widget.filter.setCity(selectedCity);
+              filter.setCity(selectedCity);
             },
           );
         }),

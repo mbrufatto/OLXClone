@@ -17,6 +17,8 @@ class FilterStore = _FilterStore with _$FilterStore;
 
 abstract class _FilterStore with Store {
   _FilterStore({
+    this.selectedUF,
+    this.selectedCity,
     this.orderBy = OrderBy.DATE,
     this.minPrice,
     this.maxPrice,
@@ -73,8 +75,8 @@ abstract class _FilterStore with Store {
   @action
   Future<void> setSelectedState(UF uf) async {
     try {
+      selectedCity = null;
       selectedUF = uf;
-      cityList.clear();
       final cities = await IBGERepository().getCityListFromApi(selectedUF);
       cities.removeWhere((element) => element == null);
       setCityList(cities);
@@ -91,15 +93,18 @@ abstract class _FilterStore with Store {
 
   @action
   void setCityList(List<City> cities) {
+    cityList.clear();
     cityList.addAll(cities);
-    print(allCityList.map((e) => print(e.name)));
   }
 
   @observable
   City selectedCity;
 
   @action
-  void setCity(City value) => selectedCity = value;
+  void setCity(City value) {
+    selectedCity = null;
+    selectedCity = value;
+  }
 
   @computed
   List<UF> get allStateList =>
@@ -124,6 +129,8 @@ abstract class _FilterStore with Store {
 
   FilterStore clone() {
     return FilterStore(
+      selectedUF: selectedUF,
+      selectedCity: selectedCity,
       orderBy: orderBy,
       minPrice: minPrice,
       maxPrice: maxPrice,
