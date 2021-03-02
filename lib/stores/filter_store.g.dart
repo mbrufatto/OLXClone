@@ -30,6 +30,19 @@ mixin _$FilterStore on _FilterStore, Store {
       (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
               name: '_FilterStore.isFormValid'))
           .value;
+  Computed<UF> _$currentUfComputed;
+
+  @override
+  UF get currentUf => (_$currentUfComputed ??=
+          Computed<UF>(() => super.currentUf, name: '_FilterStore.currentUf'))
+      .value;
+  Computed<City> _$currentCityComputed;
+
+  @override
+  City get currentCity =>
+      (_$currentCityComputed ??= Computed<City>(() => super.currentCity,
+              name: '_FilterStore.currentCity'))
+          .value;
 
   final _$orderByAtom = Atom(name: '_FilterStore.orderBy');
 
@@ -128,6 +141,13 @@ mixin _$FilterStore on _FilterStore, Store {
     return _$_getStateListAsyncAction.run(() => super._getStateList());
   }
 
+  final _$getCityListAsyncAction = AsyncAction('_FilterStore.getCityList');
+
+  @override
+  Future<void> getCityList(UF uf) {
+    return _$getCityListAsyncAction.run(() => super.getCityList(uf));
+  }
+
   final _$_FilterStoreActionController = ActionController(name: '_FilterStore');
 
   @override
@@ -196,7 +216,9 @@ selectedUF: ${selectedUF},
 selectedCity: ${selectedCity},
 priceError: ${priceError},
 isTypeParticular: ${isTypeParticular},
-isFormValid: ${isFormValid}
+isFormValid: ${isFormValid},
+currentUf: ${currentUf},
+currentCity: ${currentCity}
     ''';
   }
 }

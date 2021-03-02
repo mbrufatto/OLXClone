@@ -31,6 +31,6 @@ class LoacationRepository {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
 
-    return placemarks.first.subAdministrativeArea;
+    return placemarks.first.locality;
   }
 }

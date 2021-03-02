@@ -15,7 +15,7 @@ class StateField extends StatelessWidget {
       Observer(builder: (_) {
         return DropdownButtonFormField(
           isExpanded: true,
-          value: filter.selectedUF,
+          value: filter.currentUf,
           items: filter.stateList
               .map((e) => DropdownMenuItem(
                     child: Text(e.name),

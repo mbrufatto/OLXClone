@@ -27,9 +27,14 @@ class AdRepository {
         queryBuilder.whereContains(keyAdTitle, search, caseSensitive: false);
       }
 
-      if (filter.selectedCity != null && filter.selectedCity.name.isNotEmpty) {
+      if (filter.currentUf != null && filter.currentUf.name != 'Todos') {
+        queryBuilder.whereEqualTo(
+            keyAdFederativeUnit, filter.selectedUF.initials);
+      }
+
+      if (filter.currentCity != null && filter.currentCity.name != 'Todas') {
         queryBuilder.whereEqualTo(keyAdCity, filter.selectedCity.name);
-      } else {
+      } else if (filter.currentUf.name == 'Todos') {
         final String currentCity =
             await LoacationRepository().determinePosition();
         queryBuilder.whereEqualTo(keyAdCity, currentCity);

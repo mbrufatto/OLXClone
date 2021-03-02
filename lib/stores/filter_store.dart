@@ -104,10 +104,11 @@ abstract class _FilterStore with Store {
     getCityList(selectedUF);
   }
 
+  @action
   Future<void> getCityList(UF uf) async {
     try {
       cityList.clear();
-      if (selectedCity != null && selectedUF != uf) {
+      if (selectedUF?.name != uf?.name) {
         selectedCity = null;
         selectedUF = uf;
       }
@@ -128,4 +129,13 @@ abstract class _FilterStore with Store {
 
   @action
   void setCity(City value) => selectedCity = value;
+
+  @computed
+  UF get currentUf =>
+      selectedUF == null && stateList.isNotEmpty ? stateList.first : selectedUF;
+
+  @computed
+  City get currentCity => selectedCity == null && cityList.isNotEmpty
+      ? cityList.first
+      : selectedCity;
 }

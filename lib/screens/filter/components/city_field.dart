@@ -22,7 +22,7 @@ class CityField extends StatelessWidget {
                 SectionTitle('Selecione uma cidade:'),
                 DropdownButtonFormField(
                   isExpanded: true,
-                  value: filter.selectedCity,
+                  value: filter.currentCity,
                   items: filter.cityList
                       .map((e) => DropdownMenuItem(
                             child: Text(e.name),
