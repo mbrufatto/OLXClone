@@ -30,20 +30,6 @@ mixin _$FilterStore on _FilterStore, Store {
       (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
               name: '_FilterStore.isFormValid'))
           .value;
-  Computed<List<UF>> _$allStateListComputed;
-
-  @override
-  List<UF> get allStateList =>
-      (_$allStateListComputed ??= Computed<List<UF>>(() => super.allStateList,
-              name: '_FilterStore.allStateList'))
-          .value;
-  Computed<List<City>> _$allCityListComputed;
-
-  @override
-  List<City> get allCityList =>
-      (_$allCityListComputed ??= Computed<List<City>>(() => super.allCityList,
-              name: '_FilterStore.allCityList'))
-          .value;
 
   final _$orderByAtom = Atom(name: '_FilterStore.orderBy');
 
@@ -135,26 +121,11 @@ mixin _$FilterStore on _FilterStore, Store {
     });
   }
 
-  final _$setSelectedStateAsyncAction =
-      AsyncAction('_FilterStore.setSelectedState');
-
-  @override
-  Future<void> setSelectedState(UF uf) {
-    return _$setSelectedStateAsyncAction.run(() => super.setSelectedState(uf));
-  }
-
   final _$_getStateListAsyncAction = AsyncAction('_FilterStore._getStateList');
 
   @override
   Future<void> _getStateList() {
     return _$_getStateListAsyncAction.run(() => super._getStateList());
-  }
-
-  final _$_selectedItemAsyncAction = AsyncAction('_FilterStore._selectedItem');
-
-  @override
-  Future<void> _selectedItem() {
-    return _$_selectedItemAsyncAction.run(() => super._selectedItem());
   }
 
   final _$_FilterStoreActionController = ActionController(name: '_FilterStore');
@@ -204,28 +175,6 @@ mixin _$FilterStore on _FilterStore, Store {
   }
 
   @override
-  void setStateList(List<UF> ufs) {
-    final _$actionInfo = _$_FilterStoreActionController.startAction(
-        name: '_FilterStore.setStateList');
-    try {
-      return super.setStateList(ufs);
-    } finally {
-      _$_FilterStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setCityList(List<City> cities) {
-    final _$actionInfo = _$_FilterStoreActionController.startAction(
-        name: '_FilterStore.setCityList');
-    try {
-      return super.setCityList(cities);
-    } finally {
-      _$_FilterStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void setCity(City value) {
     final _$actionInfo = _$_FilterStoreActionController.startAction(
         name: '_FilterStore.setCity');
@@ -247,9 +196,7 @@ selectedUF: ${selectedUF},
 selectedCity: ${selectedCity},
 priceError: ${priceError},
 isTypeParticular: ${isTypeParticular},
-isFormValid: ${isFormValid},
-allStateList: ${allStateList},
-allCityList: ${allCityList}
+isFormValid: ${isFormValid}
     ''';
   }
 }

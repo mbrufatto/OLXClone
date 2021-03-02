@@ -14,17 +14,16 @@ class StateField extends StatelessWidget {
       SectionTitle('Selecione um estado:'),
       Observer(builder: (_) {
         return DropdownButtonFormField(
+          isExpanded: true,
           value: filter.selectedUF,
-          items: filter.allStateList != null
-              ? filter.allStateList
-                  .map((e) => DropdownMenuItem(
-                        child: Text(e.name),
-                        value: e,
-                      ))
-                  .toList()
-              : null,
+          items: filter.stateList
+              .map((e) => DropdownMenuItem(
+                    child: Text(e.name),
+                    value: e,
+                  ))
+              .toList(),
           onChanged: (selectedState) {
-            filter.setSelectedState(selectedState);
+            filter.getCityList(selectedState);
           },
         );
       }),

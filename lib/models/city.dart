@@ -9,10 +9,11 @@ class City {
         name: json['nome'],
       );
 
-  @override
-  bool operator ==(other) {
-    return (other is City) && other.name == name && other.id == id;
-  }
+  bool operator ==(dynamic other) =>
+      other != null &&
+      other is City &&
+      this.id == other.id &&
+      this.name == other.name;
 
   @override
   int get hashCode => super.hashCode;

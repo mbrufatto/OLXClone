@@ -10,29 +10,34 @@ class CityField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SectionTitle("Selecione uma cidade"),
-        Observer(builder: (_) {
-          if (filter.selectedUF == null || filter.selectedUF.name == 'Todos')
-            return Container();
-          return DropdownButtonFormField(
-            items: filter.allCityList.length > 0
-                ? filter.allCityList
-                    .map((e) => DropdownMenuItem(
-                          child: Text(e.name),
-                          value: e,
-                        ))
-                    .toList()
-                : null,
-            onChanged: (selectedCity) {
-              filter.setCity(selectedCity);
-            },
-            value: filter.selectedUF,
-          );
-        }),
-      ],
+    return Container(
+      child: Column(
+        children: [
+          Observer(builder: (_) {
+            if (filter.selectedUF == null || filter.selectedUF.name == 'Todos')
+              return Container();
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SectionTitle('Selecione uma cidade:'),
+                DropdownButtonFormField(
+                  isExpanded: true,
+                  value: filter.selectedCity,
+                  items: filter.cityList
+                      .map((e) => DropdownMenuItem(
+                            child: Text(e.name),
+                            value: e,
+                          ))
+                      .toList(),
+                  onChanged: (selectedCity) {
+                    filter.setCity(selectedCity);
+                  },
+                ),
+              ],
+            );
+          }),
+        ],
+      ),
     );
   }
 }

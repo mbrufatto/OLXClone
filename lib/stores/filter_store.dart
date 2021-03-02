@@ -69,75 +69,6 @@ abstract class _FilterStore with Store {
   @computed
   bool get isFormValid => priceError == null;
 
-  @observable
-  UF selectedUF;
-
-  @action
-  Future<void> setSelectedState(UF uf) async {
-    try {
-      selectedCity = null;
-      selectedUF = uf;
-      final cities = await IBGERepository().getCityListFromApi(selectedUF);
-      cities.removeWhere((element) => element == null);
-      setCityList(cities);
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  @action
-  void setStateList(List<UF> ufs) {
-    stateList.clear();
-    stateList.addAll(ufs);
-  }
-
-  @action
-  void setCityList(List<City> cities) {
-    cityList.clear();
-    cityList.addAll(cities);
-  }
-
-  @observable
-  City selectedCity;
-
-  @action
-  void setCity(City value) {
-    selectedCity = null;
-    selectedCity = value;
-  }
-
-  @computed
-  List<UF> get allStateList =>
-      List.from(stateList)..insert(0, UF(id: 0, initials: '*', name: 'Todos'));
-
-  @computed
-  List<City> get allCityList =>
-      List.from(cityList)..insert(0, City(id: 0, name: 'Todas'));
-
-  @action
-  Future<void> _getStateList() async {
-    try {
-      stateList.clear();
-      final states = await IBGERepository().getUFList();
-      setStateList(states);
-      _selectedItem();
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  @action
-  Future<void> _selectedItem() async {
-    if (selectedUF != null && selectedUF.name != 'Todos') {
-      final UF currentSelectedUf = selectedUF;
-      selectedUF = null;
-      final List<UF> currentUf = await allStateList
-          .where((element) => element.name == currentSelectedUf.name)
-          .toList();
-      setSelectedState(currentUf.first);
-    }
-  }
-
   void save() {
     GetIt.I<HomeStore>().setFilter(this);
   }
@@ -152,4 +83,49 @@ abstract class _FilterStore with Store {
       vendorType: vendorType,
     );
   }
+
+  @observable
+  UF selectedUF;
+
+  @action
+  Future<void> _getStateList() async {
+    try {
+      final states = await IBGERepository().getUFList();
+      setStateList(states);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void setStateList(List<UF> ufs) {
+    stateList.clear();
+    stateList.addAll(ufs);
+    stateList.insert(0, UF(id: 0, initials: '*', name: 'Todos'));
+    getCityList(selectedUF);
+  }
+
+  Future<void> getCityList(UF uf) async {
+    try {
+      cityList.clear();
+      if (selectedCity != null && selectedUF != uf) {
+        selectedCity = null;
+        selectedUF = uf;
+      }
+      final cities = await IBGERepository().getCityListFromApi(uf);
+      setCityList(cities);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @observable
+  City selectedCity;
+
+  void setCityList(List<City> cities) {
+    cityList.addAll(cities);
+    cityList.insert(0, City(id: 0, name: 'Todas'));
+  }
+
+  @action
+  void setCity(City value) => selectedCity = value;
 }
